@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="h-full bg-zinc-950">
   <head>
     <title><%= content_for(:title) || "Signalboard" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -25,10 +25,49 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <style>
+      :root { --crt: 0.35 }
+      .crt::after {
+        content:""; position:fixed; inset:0; pointer-events:none;
+        background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px);
+        mix-blend-mode: overlay; opacity: var(--crt);
+      }
+    </style>
   </head>
-
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="h-full text-zinc-100 font-mono crt">
+    <header class="border-b border-zinc-800 bg-zinc-900/70 backdrop-blur">
+      <nav class="mx-auto max-w-6xl flex items-center justify-between p-3">
+        <div class="flex items-center gap-3">
+          <span
+            class="
+              inline-flex h-7 w-7 items-center justify-center rounded-md bg-emerald-500
+              text-zinc-900 font-bold
+            "
+          >S</span>
+          <%= link_to "Signalboard", root_path, class: "text-base font-semibold" %>
+        </div>
+        <div class="flex items-center gap-4 text-sm">
+          <%= link_to "Projects", projects_path, class: "hover:text-white" %>
+          <%= link_to "Notifications", notifications_path, class: "relative hover:text-white" %>
+          <span
+            data-role="unread-badge"
+            class="
+              absolute -right-3 -top-2 inline-flex h-5 min-w-[1.25rem] items-center
+              justify-center rounded-full bg-emerald-500/90 px-1 text-[10px] text-zinc-900
+            "
+          >0</span>
+          <% if authenticated? %>
+            <%= button_to "Sign out", session_path, method: :delete, class: "hover:text-white" %>
+          <% else %>
+            <%= link_to "Sign in", new_session_path, class: "hover:text-white" %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-6xl p-4">
+      <% flash.each do |type, message| %>
+        <div class="mb-4 rounded border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm"><%= message %></div>
+      <% end %>
       <%= yield %>
     </main>
   </body>

@@ -1,0 +1,30 @@
+<div class="mx-auto max-w-sm bg-white border rounded-xl p-6">
+  <h1 class="text-xl font-semibold mb-4">Create your account</h1>
+  <%= form_with model: @user, url: registrations_path, class: "space-y-4" do |f| %>
+    <div>
+      <%= f.label :name, class: "block text-sm mb-1" %>
+      <%= f.text_field :name, class: "w-full rounded-lg border px-3 py-2" %>
+    </div>
+    <div>
+      <%= f.label :email_address, class: "block text-sm mb-1" %>
+      <%= f.email_field :email_address, class: "w-full rounded-lg border px-3 py-2" %>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <%= f.label :password, class: "block text-sm mb-1" %>
+        <%= f.password_field :password, class: "w-full rounded-lg border px-3 py-2" %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, class: "block text-sm mb-1" %>
+        <%= f.password_field :password_confirmation,
+                         class: "w-full rounded-lg border px-3 py-2" %>
+      </div>
+    </div>
+    <div class="flex items-center justify-between">
+      <%= f.submit "Sign up", class: "rounded-lg bg-black text-white px-4 py-2" %>
+      <%= link_to "Have an account? Sign in",
+      new_session_path,
+      class: "text-sm text-gray-600" %>
+    </div>
+  <% end %>
+</div>
